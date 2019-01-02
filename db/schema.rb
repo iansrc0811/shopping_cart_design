@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_02_151023) do
+ActiveRecord::Schema.define(version: 2019_01_02_153815) do
 
   create_table "shops", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -20,4 +20,23 @@ ActiveRecord::Schema.define(version: 2019_01_02_151023) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "vendor_shop_relations", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "shop_id"
+    t.bigint "vendor_id"
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["shop_id"], name: "index_vendor_shop_relations_on_shop_id"
+    t.index ["vendor_id"], name: "index_vendor_shop_relations_on_vendor_id"
+  end
+
+  create_table "vendors", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "name"
+    t.string "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_foreign_key "vendor_shop_relations", "shops"
+  add_foreign_key "vendor_shop_relations", "vendors"
 end
