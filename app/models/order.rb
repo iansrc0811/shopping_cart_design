@@ -1,6 +1,7 @@
 class Order < ApplicationRecord
   belongs_to :shop
   belongs_to :customer
+  has_many :line_items
 
   enum status: {
     cart:     1,  # 還是購物車
