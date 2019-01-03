@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_084539) do
+ActiveRecord::Schema.define(version: 2019_01_03_124303) do
 
   create_table "customers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -74,7 +74,6 @@ ActiveRecord::Schema.define(version: 2019_01_03_084539) do
   end
 
   create_table "products", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "vendor_id"
     t.string "name", null: false
     t.float "price", null: false
     t.integer "stock"
@@ -82,7 +81,8 @@ ActiveRecord::Schema.define(version: 2019_01_03_084539) do
     t.string "sku"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["vendor_id"], name: "index_products_on_vendor_id"
+    t.bigint "vendor_shop_relation_id"
+    t.index ["vendor_shop_relation_id"], name: "index_products_on_vendor_shop_relation_id"
   end
 
   create_table "shops", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(version: 2019_01_03_084539) do
   add_foreign_key "line_items", "products"
   add_foreign_key "orders", "customers"
   add_foreign_key "orders", "shops"
-  add_foreign_key "products", "vendors"
+  add_foreign_key "products", "vendor_shop_relations"
   add_foreign_key "vendor_shop_relations", "shops"
   add_foreign_key "vendor_shop_relations", "vendors"
 end
