@@ -15,6 +15,8 @@ class Discount < ApplicationRecord
     gift:          4,
   }, _prefix: :set_discount
 
+  scope :is_active, -> { where(active: true) }
+
   def is_free_shipping?
     set_discount_free_shipping
   end
