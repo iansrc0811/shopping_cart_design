@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_02_153815) do
+ActiveRecord::Schema.define(version: 2019_01_03_054143) do
+
+  create_table "products", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "vendor_id"
+    t.string "name", null: false
+    t.float "price", null: false
+    t.integer "stock"
+    t.string "barcode"
+    t.string "sku"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["vendor_id"], name: "index_products_on_vendor_id"
+  end
 
   create_table "shops", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -37,6 +49,7 @@ ActiveRecord::Schema.define(version: 2019_01_02_153815) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "products", "vendors"
   add_foreign_key "vendor_shop_relations", "shops"
   add_foreign_key "vendor_shop_relations", "vendors"
 end
