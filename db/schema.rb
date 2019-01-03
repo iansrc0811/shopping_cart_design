@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_065304) do
+ActiveRecord::Schema.define(version: 2019_01_03_084539) do
 
   create_table "customers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -20,6 +20,32 @@ ActiveRecord::Schema.define(version: 2019_01_03_065304) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "discounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "shop_id"
+    t.string "discountable_type"
+    t.bigint "discountable_id"
+    t.integer "condition_unit_type", null: false
+    t.float "threshold", default: 0.0, null: false
+    t.integer "discount_type", null: false
+    t.float "discount_amount"
+    t.string "name", null: false
+    t.boolean "active", default: false, null: false
+    t.boolean "set_maximum_total_price", default: false, null: false
+    t.boolean "set_maximum_usage_count", default: false, null: false
+    t.boolean "set_maximum_percustomer_total_price", default: false, null: false
+    t.boolean "set_maximum_percustomer_usage_count", default: false, null: false
+    t.float "maximum_total_price"
+    t.integer "maximum_usage_count"
+    t.float "maximum_percustomer_total_price"
+    t.integer "maximum_percustomer_usage_count"
+    t.datetime "begin_at"
+    t.datetime "end_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discountable_type", "discountable_id"], name: "index_discounts_on_discountable_type_and_discountable_id"
+    t.index ["shop_id"], name: "index_discounts_on_shop_id"
   end
 
   create_table "line_items", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -84,6 +110,7 @@ ActiveRecord::Schema.define(version: 2019_01_03_065304) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "discounts", "shops"
   add_foreign_key "line_items", "orders"
   add_foreign_key "line_items", "products"
   add_foreign_key "orders", "customers"
