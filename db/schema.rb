@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_03_124303) do
+ActiveRecord::Schema.define(version: 2019_01_04_021148) do
 
   create_table "customers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
@@ -20,6 +20,15 @@ ActiveRecord::Schema.define(version: 2019_01_03_124303) do
     t.string "email"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "discount_gifts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "product_id"
+    t.bigint "discount_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["discount_id"], name: "index_discount_gifts_on_discount_id"
+    t.index ["product_id"], name: "index_discount_gifts_on_product_id"
   end
 
   create_table "discounts", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -44,6 +53,7 @@ ActiveRecord::Schema.define(version: 2019_01_03_124303) do
     t.datetime "end_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "description"
     t.index ["discountable_type", "discountable_id"], name: "index_discounts_on_discountable_type_and_discountable_id"
     t.index ["shop_id"], name: "index_discounts_on_shop_id"
   end
@@ -110,6 +120,8 @@ ActiveRecord::Schema.define(version: 2019_01_03_124303) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "discount_gifts", "discounts"
+  add_foreign_key "discount_gifts", "products"
   add_foreign_key "discounts", "shops"
   add_foreign_key "line_items", "orders"
   add_foreign_key "line_items", "products"
